@@ -9,6 +9,7 @@ rem This defaults to using the C:\Python34 path, but you can optionally
 rem hard-code a different path here or set it before calling this script.
 
 rem set python3_dir="C:\Custom\Path"
+set python3_dir="D:\Python\anaconda3"
 if not defined python3_dir (
 	if not exist "c:\Python37" (
 	   echo "Downloading Python37..."
@@ -43,6 +44,7 @@ rem Yarn Setup
 rem ======================================================================
 
 rem set yarn_dir="C:\Custom\Path"
+rem set yarn_dir="C:\Program Files (x86)\Yarn"
 if not defined yarn_dir (
 	rem Download and install Yarn
 	if not exist "C:\Program Files (x86)\Yarn" (
@@ -57,19 +59,19 @@ rem ======================================================================
 
 rem set ffmpeg_path="C:\Custom\Path"
 rem Download and install Yarn
-if not exist backend\ffmpeg.exe (
-   echo "Installing FFMPEG..."
-   powershell -command "[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12 ; wget https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-20181114-1096614-win64-static.zip -outfile ffmpeg.zip"
-   powershell -command "Expand-Archive -Path "ffmpeg.zip" -DestinationPath "ffmpeg"
-   copy ffmpeg\ffmpeg-20181114-1096614-win64-static\bin\ffmpeg.exe backend\ffmpeg.exe
-)
+rem if not exist backend\ffmpeg.exe (
+rem   echo "Installing FFMPEG..."
+rem   powershell -command "[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12 ; wget https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-20181114-1096614-win64-static.zip -outfile ffmpeg.zip"
+rem   powershell -command "Expand-Archive -Path "ffmpeg.zip" -DestinationPath "ffmpeg"
+rem   copy ffmpeg\ffmpeg-20181114-1096614-win64-static\bin\ffmpeg.exe backend\ffmpeg.exe
+rem )
 
 rem ======================================================================
 rem Start Python backend
 rem ======================================================================
 cd backend
 set CORPUS=english_corpus.csv
-"%python3_dir%\scripts\pip.exe" install -r requirements.txt
+pip install -r requirements.txt
 start "Python Backend" "%python3_dir%\python.exe" run.py
 cd ..
 
@@ -78,7 +80,7 @@ rem Start web server
 rem ======================================================================
 
 cd frontend
-"%python3_dir%\Scripts\pip.exe" install -r requirements.txt
+pip install -r requirements.txt
 cmd /c yarn install
 yarn start
 
